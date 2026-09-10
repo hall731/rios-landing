@@ -211,19 +211,9 @@
   .door:hover .enter .arw, .door:focus-visible .enter .arw{transform:translateX(7px);}
   .door:focus-visible{outline:2px solid rgb(var(--da)); outline-offset:4px;}
 
-  /* Per-door accent — subtle, same family: Admin blue, VA warm teal. */
+  /* Per-door accent — subtle, same family: Admin blue, VA warm teal, Client tan. */
   .door.va{--da:79,209,199; --da-hi:126,229,219;}
-
-  /* Client — deliberately SEALED: dimmed, locked, still beautiful. */
-  .door.soon{--da:150,133,116; --da-hi:184,167,147; cursor:default;}
-  .door.soon .plate{opacity:.86; background:radial-gradient(120% 120% at 50% 0%, rgba(216,196,176,0.10), rgba(216,196,176,0.03)); border-color:var(--hairline-strong); color:var(--dim);}
-  .door.soon .name{color:var(--muted);}
-  .door.soon .lock{display:inline-flex; align-items:center; gap:8px; font-size:11px; letter-spacing:0.22em; text-transform:uppercase; font-weight:600; color:var(--dim);}
-  .door.soon .lock svg{width:12px; height:14px;}
-  .door.soon:hover{transform:none; border-color:var(--hairline); box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,0.05), inset 0 -40px 60px rgba(0,0,0,0.28);}
-  .door.soon:hover .halo{opacity:0;}
-  .door.soon:hover::before{opacity:.45;}
-  .door.soon:hover .plate{transform:none; box-shadow:inset 0 1px 0 rgba(255,255,255,0.08), 0 10px 22px rgba(0,0,0,0.38);}
+  .door.client{--da:150,133,116; --da-hi:184,167,147;}
 
   /* ── Footer ───────────────────────────────────────────────────────────── */
   .foot{
@@ -300,7 +290,7 @@
           <span class="sill"><span class="enter">Enter <span class="arw">→</span></span></span>
         </a>
 
-        <div class="door soon" aria-disabled="true" role="link" aria-label="Client entrance — coming soon" tabindex="-1">
+        <a class="door client" href="https://client.remoteinsightos.com">
           <span class="halo" aria-hidden="true"></span>
           <span class="plate">
             <svg viewBox="0 0 34 34" fill="none" aria-hidden="true">
@@ -311,8 +301,8 @@
             </svg>
           </span>
           <span class="name">Client</span>
-          <span class="sill"><span class="lock"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="9.5" rx="2.2" stroke="currentColor" stroke-width="1.8"/><path d="M7.75 10.5V7.6a4.25 4.25 0 0 1 8.5 0v2.9" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="15" r="1.4" fill="currentColor"/></svg> Coming soon</span></span>
-        </div>
+          <span class="sill"><span class="enter">Enter <span class="arw">→</span></span></span>
+        </a>
       </nav>
     </section>
 
@@ -429,21 +419,20 @@
 
   /* Doors: a live threshold. On a fine pointer the card tilts toward the cursor
      and light spills from the point you aim at; the radar blooms toward the
-     hovered door's accent. Sealed (Client) door does none of this. */
+     hovered door's accent. */
   (function(){
     var fine = window.matchMedia && window.matchMedia("(hover:hover) and (pointer:fine)").matches;
     var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var doors = document.querySelectorAll(".door");
     Array.prototype.forEach.call(doors, function(d){
-      var soon = d.classList.contains("soon");
       var da = (getComputedStyle(d).getPropertyValue("--da") || "88,166,255").trim();
-      d.addEventListener("mouseenter", function(){ if(!soon && window.riosRadarHover) window.riosRadarHover(da); });
+      d.addEventListener("mouseenter", function(){ if(window.riosRadarHover) window.riosRadarHover(da); });
       d.addEventListener("mouseleave", function(){
         if(window.riosRadarHover) window.riosRadarHover(null);
         d.style.removeProperty("transform");
         d.style.setProperty("--mx","50%"); d.style.setProperty("--my","0%");
       });
-      if(soon || !fine || reduce) return;
+      if(!fine || reduce) return;
       d.addEventListener("mousemove", function(e){
         var r = d.getBoundingClientRect();
         var px = (e.clientX - r.left)/r.width, py = (e.clientY - r.top)/r.height;
