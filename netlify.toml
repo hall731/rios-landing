@@ -1,0 +1,12 @@
+# rios-landing — the apex landing for remoteinsightos.com.
+# Pure static: one index.html, no functions, no backend, no build step.
+[build]
+  publish = "."
+
+# www -> apex (Netlify also does this at the DNS/domain level; kept here as a
+# belt-and-suspenders redirect if www is pointed at this site).
+[[redirects]]
+  from = "https://www.remoteinsightos.com/*"
+  to = "https://remoteinsightos.com/:splat"
+  status = 301
+  force = true
