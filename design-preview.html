@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Design preview — Landing (remoteinsightos.com)</title>
+<!-- RIOS design preview. Before = the page as it is on main (snapshot committed on this
+     branch); After = this branch's page. Dark/Light toggles the theme INSIDE the frame
+     (same origin). On a dark-only surface the Light button is disabled and says so. -->
+<style>
+  :root{--bg:#1B1714;--surface:#262019;--surface-2:#322A22;--text:#F7F0E8;--muted:#D8C4B0;--accent:#37D6C2;--on-accent:#1B1714;--hairline:rgba(216,196,176,.18)}
+  *{box-sizing:border-box}html,body{height:100%;margin:0}
+  body{background:var(--bg);color:var(--text);font:500 13px/1.4 "Sora",system-ui,sans-serif;display:flex;flex-direction:column}
+  .bar{display:flex;align-items:center;gap:16px;padding:10px 16px;border-bottom:1px solid var(--hairline);background:var(--surface)}
+  .bar b{font-weight:700}
+  .seg{display:inline-flex;border:1px solid var(--hairline);border-radius:6px;overflow:hidden}
+  .seg button{background:transparent;color:var(--muted);border:0;padding:7px 14px;font:inherit;cursor:pointer}
+  .seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);font-weight:600}
+  .seg button:disabled{opacity:.45;cursor:not-allowed}
+  .note{color:var(--muted);font-weight:400;margin-left:auto}
+  iframe{flex:1;width:100%;border:0;background:#fff}
+  kbd{font:500 11px "IBM Plex Mono",monospace;border:1px solid var(--hairline);border-radius:4px;padding:1px 5px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="bar">
+  <b>Landing (remoteinsightos.com)</b>
+  <div class="seg" role="group" aria-label="Version">
+    <button id="b-before" aria-pressed="false">Before</button>
+    <button id="b-after" aria-pressed="true">After</button>
+  </div>
+  <div class="seg" role="group" aria-label="Theme">
+    <button id="t-dark" aria-pressed="true">Dark</button>
+    <button id="t-light" aria-pressed="false">Light</button>
+  </div>
+  <span class="note" id="note"><kbd>B</kbd> before/after &nbsp; <kbd>T</kbd> theme</span>
+</div>
+<iframe id="frame" title="Preview" src="index.html"></iframe>
+<script>
+  // Per-surface config. themeClass: the body class that turns the light theme on inside
+  // the page (null = dark-only surface). beforeSrc/afterSrc: same-origin paths.
+  var CFG = { beforeSrc: "index.before.html", afterSrc: "index.html", themeClass: null, themeStorageKey: null };
+  var which = "after", theme = "dark";
+  var $ = function(id){ return document.getElementById(id); };
+  function applyTheme(){
+    var f = $("frame"); try {
+      var doc = f.contentDocument; if (!doc || !doc.body) return;
+      if (CFG.themeStorageKey) { try { f.contentWindow.localStorage.setItem(CFG.themeStorageKey, theme); } catch(e){} }
+      if (CFG.themeClass) doc.body.classList.toggle(CFG.themeClass, theme === "light");
+      doc.documentElement.setAttribute("data-theme", theme);
+    } catch(e){}
+  }
+  function paint(){
+    $("b-before").setAttribute("aria-pressed", which === "before"); $("b-after").setAttribute("aria-pressed", which === "after");
+    $("t-dark").setAttribute("aria-pressed", theme === "dark"); $("t-light").setAttribute("aria-pressed", theme === "light");
+    if (!CFG.themeClass) { $("t-light").disabled = true; $("t-light").title = "This surface is dark-only today"; $("note").textContent = "Dark-only surface: the Light toggle is a follow-up, not tonight's change."; }
+  }
+  function load(){ var f = $("frame"); f.src = which === "before" ? CFG.beforeSrc : CFG.afterSrc; }
+  $("frame").addEventListener("load", applyTheme);
+  $("b-before").onclick = function(){ which = "before"; paint(); load(); };
+  $("b-after").onclick = function(){ which = "after"; paint(); load(); };
+  $("t-dark").onclick = function(){ theme = "dark"; paint(); applyTheme(); };
+  $("t-light").onclick = function(){ if (!CFG.themeClass) return; theme = "light"; paint(); applyTheme(); };
+  document.addEventListener("keydown", function(e){
+    if (e.target && /input|textarea/i.test(e.target.tagName)) return;
+    if (e.key === "b" || e.key === "B") { which = which === "before" ? "after" : "before"; paint(); load(); }
+    if ((e.key === "t" || e.key === "T") && CFG.themeClass) { theme = theme === "dark" ? "light" : "dark"; paint(); applyTheme(); }
+  });
+  paint();
+</script>
+</body>
+</html>
