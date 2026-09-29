@@ -115,47 +115,48 @@
     max-width:46ch; text-wrap:balance;
   }
 
-  /* ── Doors: three real objects, one accent ────────────────────────────── */
+  /* ── Doors: three entries, each says who it is for and what they get ──── */
   .doors{
     width:100%; max-width:960px; margin-top:min(6vh,48px);
     display:grid; grid-template-columns:repeat(3,1fr); gap:var(--s-4);
+    text-align:left;
   }
-  @media (max-width:720px){ .doors{grid-template-columns:1fr; max-width:420px;} }
-
   .door{
-    display:flex; flex-direction:column; align-items:center; text-align:center;
-    gap:var(--s-3); padding:var(--s-8) var(--s-5) 0; min-height:200px;
+    display:flex; flex-direction:column; align-items:flex-start;
+    gap:var(--s-2); padding:var(--s-5);
     text-decoration:none; color:inherit;
     border-radius:var(--r-card);
     border:1px solid var(--hairline);
     background:var(--surface);
     transition:border-color 160ms ease-out, background-color 160ms ease-out;
   }
-  @media (max-width:720px){ .door{min-height:0; padding-top:var(--s-6);} }
-  /* the door's icon sits on the door surface itself: no plate, no tint */
+  .door .head{display:flex; align-items:center; gap:10px;}
+  /* the icon sits on the door surface: 20px, the accent, no plate. The stroke stays 1.75px on screen whatever the viewBox scale. */
   .door .glyph{
-    width:32px; height:32px; flex:0 0 auto; color:var(--accent);
+    width:20px; height:20px; flex:0 0 auto; color:var(--accent);
     stroke:currentColor; fill:none; stroke-width:1.75; stroke-linecap:round; stroke-linejoin:round;
   }
+  .door .glyph *{vector-effect:non-scaling-stroke;}
   .door .name{
-    font-family:var(--font-display); font-weight:600; font-size:var(--fs-h2);
-    line-height:1.25; letter-spacing:-0.01em; color:var(--text);
+    font-family:var(--font-display); font-weight:600; font-size:var(--fs-h3);
+    line-height:1.3; letter-spacing:-0.01em; color:var(--text);
   }
-  /* the sill: base of the doorway, holds the action */
-  .sill{
-    margin-top:auto; width:100%; padding:14px 0 16px;
-    border-top:1px solid var(--hairline);
-    display:flex; align-items:center; justify-content:center;
-    transition:border-color 160ms ease-out;
-  }
-  .enter{font-size:var(--fs-body); line-height:1.4; font-weight:500; color:var(--accent); transition:color 160ms ease-out;}
+  .door .who{font-size:var(--fs-body); line-height:1.5; color:var(--muted); max-width:34ch;}
+  .enter{margin-top:auto; padding-top:var(--s-3); font-size:var(--fs-body); line-height:1.4; font-weight:500; color:var(--accent); transition:color 160ms ease-out;}
 
   .door:hover, .door:focus-visible{
     border-color:var(--accent-border);
     background:color-mix(in srgb, var(--accent) 14%, var(--surface));
   }
-  .door:hover .sill, .door:focus-visible .sill{border-top-color:var(--accent-border);}
   .door:hover .enter, .door:focus-visible .enter{color:var(--accent-hover);}
+
+  /* phone: one list, hairlines between the entries, no card border */
+  @media (max-width:720px){
+    .doors{grid-template-columns:1fr; gap:0; max-width:none;}
+    .door{border:0; border-radius:0; background:transparent; padding:var(--s-4) var(--s-3);}
+    .door + .door{border-top:1px solid var(--hairline);}
+    .door .who{max-width:none;}
+  }
 
   /* ── Footer ───────────────────────────────────────────────────────────── */
   .foot{
@@ -196,36 +197,45 @@
 
       <nav class="doors" aria-label="Entrances">
         <a class="door admin" href="https://app.remoteinsightos.com">
-          <svg class="glyph" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="3" y="5" width="28" height="20" rx="3"/>
-            <path d="M3 11h28"/>
-            <circle cx="6.5" cy="8" r="1" fill="currentColor" stroke="none"/><circle cx="9.5" cy="8" r="1" fill="currentColor" stroke="none"/>
-            <path d="M8 17h7M8 20.5h11M22 16l4 3-4 3"/>
-            <path d="M12 29h10"/>
-          </svg>
-          <span class="name">Admin</span>
-          <span class="sill"><span class="enter">Open the admin site</span></span>
+          <span class="head">
+            <svg class="glyph" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="5" width="28" height="20" rx="3"/>
+              <path d="M3 11h28"/>
+              <circle cx="6.5" cy="8" r="1" fill="currentColor" stroke="none"/><circle cx="9.5" cy="8" r="1" fill="currentColor" stroke="none"/>
+              <path d="M8 17h7M8 20.5h11M22 16l4 3-4 3"/>
+              <path d="M12 29h10"/>
+            </svg>
+            <span class="name">Admin</span>
+          </span>
+          <span class="who">For the Tele-Help-Ing team. The dashboard, settings and every VA’s read.</span>
+          <span class="enter">Open the admin site</span>
         </a>
 
         <a class="door va" href="https://va.remoteinsightos.com">
-          <svg class="glyph" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="17" cy="11" r="5.4"/>
-            <path d="M6.5 29c1.4-5.6 5.6-8.5 10.5-8.5S26.1 23.4 27.5 29"/>
-            <path d="M2.5 17h4l1.6-3.4L10 20l1.8-4 1.2 2h2"/>
-          </svg>
-          <span class="name">VA</span>
-          <span class="sill"><span class="enter">Open the VA site</span></span>
+          <span class="head">
+            <svg class="glyph" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="17" cy="11" r="5.4"/>
+              <path d="M6.5 29c1.4-5.6 5.6-8.5 10.5-8.5S26.1 23.4 27.5 29"/>
+              <path d="M2.5 17h4l1.6-3.4L10 20l1.8-4 1.2 2h2"/>
+            </svg>
+            <span class="name">VA</span>
+          </span>
+          <span class="who">For virtual assistants. Your survey, your read, your messages.</span>
+          <span class="enter">Open the VA site</span>
         </a>
 
         <a class="door client" href="https://client.remoteinsightos.com">
-          <svg class="glyph" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="4" y="6" width="26" height="22" rx="3"/>
-            <path d="M4 12h26"/>
-            <path d="M10 20c1.6-2.6 4-3.9 7-3.9s5.4 1.3 7 3.9c-1.6 2.6-4 3.9-7 3.9s-5.4-1.3-7-3.9Z"/>
-            <circle cx="17" cy="20" r="1.7" fill="currentColor" stroke="none"/>
-          </svg>
-          <span class="name">Client</span>
-          <span class="sill"><span class="enter">Open the client site</span></span>
+          <span class="head">
+            <svg class="glyph" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="4" y="6" width="26" height="22" rx="3"/>
+              <path d="M4 12h26"/>
+              <path d="M10 20c1.6-2.6 4-3.9 7-3.9s5.4 1.3 7 3.9c-1.6 2.6-4 3.9-7 3.9s-5.4-1.3-7-3.9Z"/>
+              <circle cx="17" cy="20" r="1.7" fill="currentColor" stroke="none"/>
+            </svg>
+            <span class="name">Client</span>
+          </span>
+          <span class="who">For clients. Your VA’s work, in plain language.</span>
+          <span class="enter">Open the client site</span>
         </a>
       </nav>
     </section>
