@@ -4,77 +4,99 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Remote Insight OS</title>
-<meta name="description" content="Remote Insight OS — secure entrance for admins, VAs, and clients." />
+<meta name="description" content="Remote Insight OS reads the signals from your remote team and tells you, in plain words, how the work is going. Entrances for admins, VAs and clients." />
 <meta name="robots" content="index, follow" />
 <meta name="theme-color" content="#1B1714" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" />
 <style>
-  /* ── RIOS brand tokens (warm-dark, committed single look) ─────────────── */
+/* Self-hosted brand fonts (SIL Open Font License 1.1; see fonts/OFL.txt).
+   Sora is one variable file (weights 100-800); IBM Plex Mono is three static weights.
+   Latin subset. No third-party font request leaves the page. */
+@font-face{font-family:"Sora";font-style:normal;font-weight:100 800;font-display:swap;src:url("/fonts/sora-latin.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"IBM Plex Mono";font-style:normal;font-weight:400;font-display:swap;src:url("/fonts/ibm-plex-mono-400-latin.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"IBM Plex Mono";font-style:normal;font-weight:500;font-display:swap;src:url("/fonts/ibm-plex-mono-500-latin.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"IBM Plex Mono";font-style:normal;font-weight:600;font-display:swap;src:url("/fonts/ibm-plex-mono-600-latin.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  /* ============================================================================
+     RIOS design tokens — the ONE system, applied identically on every surface.
+     Source of truth: scratchpad/design/DIRECTION.md (2026-09-29).
+     Paste this block verbatim into each surface, then map that file's legacy
+     names onto these (see the LEGACY ALIASES section). Every pair below is
+     measured: text >= 4.5:1, large/UI >= 3:1, on the surfaces it is used on.
+     ============================================================================ */
   :root{
-    --bg:#1B1714;            /* warm near-black */
-    --bg-2:#161210;          /* deeper vignette */
-    --surface:#262019;       /* raised card */
-    --surface-2:#322A22;     /* hover / well */
-    --hairline:rgba(216,196,176,0.12);
-    --hairline-strong:rgba(216,196,176,0.24);
-    --text:#F7F0E8;          /* warm off-white */
-    --muted:#D8C4B0;         /* warm tan */
-    --dim:#9C8B79;           /* dimmer tan for meta */
-    --accent:#58A6FF;
-    --accent-hover:#7FBBFF;
-    --accent-soft:rgba(88,166,255,0.14);
-    --accent-line:rgba(88,166,255,0.36);
-    --success:#7EE787;
-    --radius:16px;
-    --radius-sm:12px;
-    --shadow:0 1px 2px rgba(0,0,0,0.30), 0 18px 50px rgba(0,0,0,0.42);
-    --font-display:"Sora", ui-rounded, "SF Pro Rounded", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    --font-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    /* ground (warm-dark, unchanged) */
+    --bg:#1B1714; --surface:#262019; --surface-2:#322A22;
+    --hairline:rgba(216,196,176,0.12); --hairline-strong:rgba(216,196,176,0.22);
+    /* text: three real steps */
+    --text:#F7F0E8; --muted:#D8C4B0; --dimmer:#B8A48F;
+    /* the accent: Signal teal. Actions, links, selection, insight, the mark, focus. Never status. */
+    --accent:#37D6C2; --accent-hover:#5EE3D2;
+    --accent-soft:rgba(55,214,194,0.14); --accent-border:rgba(55,214,194,0.40);
+    --on-accent:#1B1714;
+    /* status — loud, identical in both themes (fills are opaque) */
+    --green:#7EE787;  --green-fill:#2ED573;  --green-ink:#06341A;  --green-line:#15914A;  --green-soft:rgba(46,213,115,0.12);
+    --yellow:#FFD60A; --yellow-fill:#FFD60A; --yellow-ink:#4A3600; --yellow-line:#8F7000; --yellow-soft:rgba(255,214,10,0.12);
+    --red:#FF7A6E;    --red-fill:#FF4757;    --red-ink:#4C0008;    --red-line:#C41E2E;    --red-soft:rgba(255,71,87,0.12);
+    /* projected / inferred data: the accent, quieter, always with a dashed stroke and a label */
+    --proj:rgba(55,214,194,0.55); --proj-soft:rgba(55,214,194,0.10); --proj-border:rgba(55,214,194,0.45);
+    /* radius by role */
+    --r-control:6px; --r-chip:4px; --r-card:10px; --r-modal:14px;
+    /* elevation: no colour, no glow */
+    --shadow-1:0 1px 2px rgba(0,0,0,0.24);
+    --shadow-2:0 1px 2px rgba(0,0,0,0.30),0 12px 32px -12px rgba(0,0,0,0.50);
+    /* type */
+    --font-ui:"Sora",ui-rounded,"SF Pro Rounded",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --font-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+    --fs-meta:12px; --fs-ui-sm:13px; --fs-body:14px; --fs-lead:16px; --fs-h3:18px; --fs-h2:22px; --fs-h1:28px;
+    /* space */
+    --s-1:4px; --s-2:8px; --s-3:12px; --s-4:16px; --s-5:20px; --s-6:24px; --s-8:32px; --s-10:40px; --s-12:48px; --s-16:64px;
+    /* focus ring: the accent, always visible */
+    --focus:0 0 0 2px var(--bg),0 0 0 4px var(--accent);
+  }
+  /* This surface is dark-only today; the light block is a follow-up, not carried here. */
+
+  /* ---- LEGACY ALIASES (landing) — old names kept working on their call sites. */
+  :root{
+    --font-display:var(--font-ui);
+    --dim:var(--dimmer);
+    --accent-line:var(--accent-border);
   }
 
+  /* ---- BASE RULES every surface carries ------------------------------------- */
+  html{-webkit-text-size-adjust:100%}
+  body{background:var(--bg);color:var(--text);font-family:var(--font-ui);font-size:var(--fs-body);line-height:1.5;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  h1,h2,h3{font-family:var(--font-ui);color:var(--text);margin:0;text-wrap:balance}
+  h1{font-size:var(--fs-h1);line-height:1.15;font-weight:700;letter-spacing:-0.02em}
+  h2{font-size:var(--fs-h2);line-height:1.25;font-weight:600;letter-spacing:-0.01em}
+  h3{font-size:var(--fs-h3);line-height:1.3;font-weight:600;letter-spacing:-0.01em}
+  .data,.num{font-family:var(--font-mono);font-variant-numeric:tabular-nums;font-size:var(--fs-ui-sm)}
+  ::selection{background:var(--accent-soft);color:var(--text)}
+  :focus-visible{outline:none;box-shadow:var(--focus)}
+  .ic{width:18px;height:18px;flex:0 0 auto;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;vertical-align:-3px}
+  .ic.sm{width:16px;height:16px}
+  @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important;scroll-behavior:auto!important}}
+
+  /* ── Page ─────────────────────────────────────────────────────────────── */
   *{box-sizing:border-box;}
   html,body{height:100%;}
-  body{
-    margin:0;
-    color:var(--text);
-    background:var(--bg);
-    font-family:var(--font-mono);
-    -webkit-font-smoothing:antialiased;
-    text-rendering:optimizeLegibility;
-    overflow-x:hidden;
-  }
+  body{margin:0; overflow-x:hidden;}
 
-  /* Ambient signal-field canvas + layered warm/blue glow behind everything. */
+  /* The signal field: the brand's own image, drawn on a flat ground. Nothing sits between it and the page. */
   #field{position:fixed; inset:0; width:100%; height:100%; z-index:0; display:block;}
-  .veil{
-    position:fixed; inset:0; z-index:1; pointer-events:none;
-    background:
-      radial-gradient(1200px 760px at 50% 26%, rgba(88,166,255,0.10), transparent 60%),
-      radial-gradient(900px 620px at 82% 8%, rgba(255,150,120,0.05), transparent 55%),
-      radial-gradient(1200px 900px at 50% 118%, var(--bg-2), transparent 60%);
-  }
-  /* Fine grain so flat areas read as a warm surface, not a void. */
-  .grain{
-    position:fixed; inset:0; z-index:1; pointer-events:none; opacity:0.035;
-    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-  }
 
   .stage{
-    position:relative; z-index:2;
+    position:relative; z-index:1;
     min-height:100%;
     display:flex; flex-direction:column;
-    padding:26px clamp(18px,5vw,44px) 22px;
+    padding:var(--s-6) clamp(16px,5vw,40px) var(--s-5);
   }
 
   /* ── Masthead ─────────────────────────────────────────────────────────── */
-  .top{display:flex; align-items:center; justify-content:space-between; gap:16px;}
-  .brandmark{display:flex; align-items:center; gap:11px; min-width:0;}
-  .brandmark svg{width:30px; height:30px; flex:0 0 auto;}
-  .brandmark .wm{font-family:var(--font-display); font-weight:700; font-size:15px; letter-spacing:-0.01em; color:var(--text);}
-  .brandmark .wm .tm{font-size:0.62em; vertical-align:super; color:var(--muted); font-weight:500;}
-  .top .where{font-size:11px; letter-spacing:0.14em; color:var(--dim); text-transform:uppercase;}
+  .top{display:flex; align-items:center; justify-content:space-between; gap:var(--s-4);}
+  .brandmark{display:flex; align-items:center; gap:10px; min-width:0;}
+  .brandmark .rios-mark{width:28px; height:28px; flex:0 0 auto; color:var(--accent);}
+  .brandmark .wm{font-family:var(--font-display); font-weight:700; font-size:15px; line-height:1.2; letter-spacing:-0.01em; color:var(--text);}
+  .brandmark .wm .tm{font-size:var(--fs-meta); line-height:0; vertical-align:super; color:var(--muted); font-weight:500;}
+  .top .where{font-size:var(--fs-meta); line-height:1.4; color:var(--dim);}
   @media (max-width:560px){ .top .where{display:none;} }
 
   /* ── Hero ─────────────────────────────────────────────────────────────── */
@@ -82,170 +104,90 @@
     flex:1 1 auto;
     display:flex; flex-direction:column; align-items:center; justify-content:center;
     text-align:center;
-    padding:min(9vh,72px) 0 min(6vh,44px);
+    padding:min(8vh,64px) 0 min(6vh,40px);
   }
-  .eyebrow{
-    display:inline-flex; align-items:center; gap:9px;
-    font-size:11px; letter-spacing:0.34em; text-transform:uppercase; color:var(--muted);
-    padding:7px 14px; border:1px solid var(--hairline);
-    border-radius:999px; background:rgba(38,32,25,0.5);
-    backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
-  }
-  .eyebrow .live{
-    width:6px; height:6px; border-radius:50%; background:var(--success);
-    box-shadow:0 0 0 0 rgba(126,231,135,0.55); animation:pulse 2.6s ease-out infinite;
-  }
-  @keyframes pulse{ to{ box-shadow:0 0 0 7px rgba(126,231,135,0); } }
-
   .wordmark{
     font-family:var(--font-display); font-weight:700; color:var(--text);
-    font-size:clamp(38px,8.4vw,92px); line-height:0.94; letter-spacing:-0.03em;
-    text-align:center; text-wrap:balance; margin:26px 0 0;
+    font-size:clamp(40px,7vw,72px); line-height:1; letter-spacing:-0.03em;
+    text-align:center; margin:0;
   }
-  .wordmark .os{
-    background:linear-gradient(180deg,var(--accent-hover),var(--accent));
-    -webkit-background-clip:text; background-clip:text; color:transparent;
-  }
-  .wordmark .tm{font-family:var(--font-mono); font-size:0.24em; vertical-align:super; color:var(--muted); font-weight:500; letter-spacing:0;}
+  .wordmark .tm{font-size:max(var(--fs-meta),0.24em); line-height:0; vertical-align:super; color:var(--muted); font-weight:500; letter-spacing:0;}
 
   .tagline{
-    margin:24px 0 0; font-family:var(--font-display); font-weight:500;
-    font-size:clamp(17px,2.4vw,24px); letter-spacing:-0.01em; color:var(--text);
-    max-width:22ch; text-wrap:balance;
+    margin:var(--s-5) 0 0; font-weight:400;
+    font-size:clamp(16px,1.5vw,18px); line-height:1.5; color:var(--muted);
+    max-width:46ch; text-wrap:balance;
   }
 
-  /* ── Doors ────────────────────────────────────────────────────────────── */
-  .doors-label{
-    margin:min(6vh,44px) 0 16px; font-size:11px; letter-spacing:0.28em;
-    text-transform:uppercase; color:var(--dim);
-    display:flex; align-items:center; gap:12px;
-  }
-  .doors-label::before,.doors-label::after{content:""; height:1px; width:clamp(28px,7vw,72px); background:var(--hairline);}
-
+  /* ── Doors: three entries, each says who it is for and what they get ──── */
   .doors{
-    width:100%; max-width:960px;
-    display:grid; grid-template-columns:repeat(3,1fr); gap:18px;
-    perspective:1200px;                 /* shared vanishing point for the tilt */
+    width:100%; max-width:960px; margin-top:min(6vh,48px);
+    display:grid; grid-template-columns:repeat(3,1fr); gap:var(--s-4);
+    text-align:left;
   }
-  @media (max-width:720px){ .doors{grid-template-columns:1fr; max-width:420px; perspective:none;} }
-
-  /* Each door is a threshold. --da / --da-hi are the per-door accent (r,g,b). */
   .door{
-    --da:88,166,255; --da-hi:127,187,255;
-    --mx:50%; --my:0%;                   /* cursor hotspot, set from JS */
-    position:relative; isolation:isolate; overflow:hidden;
-    display:flex; flex-direction:column; align-items:center; text-align:center;
-    gap:18px; padding:30px 22px 0; min-height:246px;
+    display:flex; flex-direction:column; align-items:flex-start;
+    gap:var(--s-2); padding:var(--s-5);
     text-decoration:none; color:inherit;
-    border-radius:20px;
+    border-radius:var(--r-card);
     border:1px solid var(--hairline);
-    background:
-      linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0) 24%),
-      linear-gradient(180deg, rgba(52,44,35,0.62), rgba(28,23,18,0.78));
-    box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,0.05), inset 0 -40px 60px rgba(0,0,0,0.28);
-    transform-style:preserve-3d; will-change:transform;
-    transition:transform .34s cubic-bezier(.2,.7,.2,1), border-color .34s, box-shadow .34s;
+    background:var(--surface);
+    transition:border-color 160ms ease-out, background-color 160ms ease-out;
   }
-  /* threshold light-line across the top of the frame */
-  .door::before{
-    content:""; position:absolute; left:14%; right:14%; top:0; height:1px; z-index:2;
-    background:linear-gradient(90deg, transparent, rgba(var(--da-hi),0.7), transparent);
-    opacity:.45; transition:opacity .34s;
+  .door .head{display:flex; align-items:center; gap:10px;}
+  /* the icon sits on the door surface: 20px, the accent, no plate. The stroke stays 1.75px on screen whatever the viewBox scale. */
+  .door .glyph{
+    width:20px; height:20px; flex:0 0 auto; color:var(--accent);
+    stroke:currentColor; fill:none; stroke-width:1.75; stroke-linecap:round; stroke-linejoin:round;
   }
-  /* the light behind the door — spills from where the cursor points, on hover */
-  .door .halo{
-    content:""; position:absolute; inset:-1px; z-index:0; border-radius:inherit; opacity:0;
-    background:
-      radial-gradient(260px 200px at var(--mx) var(--my), rgba(var(--da),0.34), transparent 62%),
-      radial-gradient(150% 80% at 50% 118%, rgba(var(--da),0.12), transparent 60%);
-    transition:opacity .4s;
-  }
-  .door > *{position:relative; z-index:1;}
-
-  .plate{
-    width:66px; height:66px; border-radius:18px; display:grid; place-items:center;
-    color:rgb(var(--da-hi));
-    background:radial-gradient(120% 120% at 50% 0%, rgba(var(--da),0.18), rgba(var(--da),0.05));
-    border:1px solid rgba(var(--da),0.30);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,0.08), 0 10px 22px rgba(0,0,0,0.38);
-    transition:transform .34s cubic-bezier(.2,.7,.2,1), box-shadow .34s, border-color .34s;
-  }
-  .plate svg{width:32px; height:32px; transition:transform .34s cubic-bezier(.2,.7,.2,1);}
+  .door .glyph *{vector-effect:non-scaling-stroke;}
   .door .name{
-    font-family:var(--font-display); font-weight:600; font-size:22px;
-    letter-spacing:0.08em; text-transform:uppercase; color:var(--text);
+    font-family:var(--font-display); font-weight:600; font-size:var(--fs-h3);
+    line-height:1.3; letter-spacing:-0.01em; color:var(--text);
   }
-  /* the sill: base of the doorway, holds the action */
-  .sill{
-    margin-top:auto; width:100%; padding:15px 0 17px;
-    border-top:1px solid var(--hairline);
-    display:flex; align-items:center; justify-content:center;
-    transition:border-color .34s;
-  }
-  .enter{
-    display:inline-flex; align-items:center; gap:9px;
-    font-size:11px; letter-spacing:0.22em; text-transform:uppercase; font-weight:600;
-    color:rgb(var(--da-hi));
-  }
-  .enter .arw{transition:transform .4s cubic-bezier(.34,1.56,.4,1);}  /* spring */
+  .door .who{font-size:var(--fs-body); line-height:1.5; color:var(--muted); max-width:34ch;}
+  .enter{margin-top:auto; padding-top:var(--s-3); font-size:var(--fs-body); line-height:1.4; font-weight:500; color:var(--accent); transition:color 160ms ease-out;}
 
   .door:hover, .door:focus-visible{
-    transform:translateY(-4px);         /* base lift; JS adds cursor tilt on fine pointers */
-    border-color:rgba(var(--da),0.5);
-    box-shadow:
-      0 34px 74px rgba(0,0,0,0.58),
-      0 0 0 1px rgba(var(--da),0.28),
-      0 0 46px rgba(var(--da),0.14),
-      inset 0 1px 0 rgba(255,255,255,0.09);
-    outline:none;
+    border-color:var(--accent-border);
+    background:color-mix(in srgb, var(--accent) 14%, var(--surface));
   }
-  .door:hover .halo, .door:focus-visible .halo{opacity:1;}
-  .door:hover::before, .door:focus-visible::before{opacity:1;}
-  .door:hover .plate, .door:focus-visible .plate{
-    transform:translateY(-4px) scale(1.05);
-    border-color:rgba(var(--da),0.6);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,0.12), 0 16px 32px rgba(0,0,0,0.42), 0 0 30px rgba(var(--da),0.28);
-  }
-  .door:hover .plate svg, .door:focus-visible .plate svg{transform:translateY(-1px) scale(1.08);}
-  .door:hover .sill, .door:focus-visible .sill{border-color:rgba(var(--da),0.3);}
-  .door:hover .enter .arw, .door:focus-visible .enter .arw{transform:translateX(7px);}
-  .door:focus-visible{outline:2px solid rgb(var(--da)); outline-offset:4px;}
+  .door:hover .enter, .door:focus-visible .enter{color:var(--accent-hover);}
 
-  /* Per-door accent — subtle, same family: Admin blue, VA warm teal, Client tan. */
-  .door.va{--da:79,209,199; --da-hi:126,229,219;}
-  .door.client{--da:150,133,116; --da-hi:184,167,147;}
+  /* phone: one list, hairlines between the entries, no card border */
+  @media (max-width:720px){
+    .doors{grid-template-columns:1fr; gap:0; max-width:none;}
+    .door{border:0; border-radius:0; background:transparent; padding:var(--s-4) var(--s-3);}
+    .door + .door{border-top:1px solid var(--hairline);}
+    .door .who{max-width:none;}
+  }
 
   /* ── Footer ───────────────────────────────────────────────────────────── */
   .foot{
-    display:flex; align-items:center; justify-content:space-between; gap:14px;
-    padding-top:22px; margin-top:min(6vh,40px);
+    display:flex; align-items:center; justify-content:space-between; gap:var(--s-3);
+    padding-top:var(--s-5); margin-top:min(6vh,40px);
     border-top:1px solid var(--hairline);
-    font-size:11px; letter-spacing:0.08em; color:var(--dim);
+    font-size:var(--fs-meta); line-height:1.4; color:var(--dim);
   }
-  .foot a{color:var(--dim); text-decoration:none;}
-  .foot a:hover{color:var(--muted);}
-  @media (max-width:560px){ .foot{flex-direction:column; gap:8px; text-align:center;} }
-
-  @media (prefers-reduced-motion:reduce){
-    *{animation:none !important; transition:none !important;}
-  }
+  .foot .tm{color:var(--muted);}
+  .foot a{color:var(--dim); text-decoration:underline; text-decoration-color:var(--hairline-strong); text-underline-offset:3px; transition:color 160ms ease-out;}
+  .foot a:hover{color:var(--accent);}
+  @media (max-width:560px){ .foot{flex-direction:column; gap:var(--s-2); text-align:center;} }
 </style>
 </head>
 <body>
   <canvas id="field" aria-hidden="true"></canvas>
-  <div class="veil" aria-hidden="true"></div>
-  <div class="grain" aria-hidden="true"></div>
 
   <main class="stage">
     <header class="top">
       <div class="brandmark">
-        <!-- Bullseye mark: signal → read -->
-        <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
-          <circle cx="16" cy="16" r="14" stroke="#58A6FF" stroke-opacity="0.35" stroke-width="1.4"/>
-          <circle cx="16" cy="16" r="9"  stroke="#58A6FF" stroke-opacity="0.6" stroke-width="1.4"/>
-          <circle cx="16" cy="16" r="4"  stroke="#7FBBFF" stroke-width="1.6"/>
-          <circle cx="16" cy="16" r="1.6" fill="#7FBBFF"/>
-          <path d="M16 1.5V6M16 26v4.5M1.5 16H6M26 16h4.5" stroke="#58A6FF" stroke-opacity="0.5" stroke-width="1.2" stroke-linecap="round"/>
+        <!-- RIOS brand mark: the bullseye radar. Rings + ticks in the accent, solid centre, on nothing. -->
+        <svg class="rios-mark" viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" role="img" aria-label="Remote Insight OS">
+          <circle cx="16" cy="16" r="14" stroke-opacity=".4"/>
+          <circle cx="16" cy="16" r="9" stroke-opacity=".7"/>
+          <circle cx="16" cy="16" r="4"/>
+          <circle cx="16" cy="16" r="1.7" fill="currentColor" stroke="none"/>
+          <path d="M16 1.5V5M16 27v3.5M1.5 16H5M27 16h3.5" stroke-opacity=".6"/>
         </svg>
         <span class="wm">Remote Insight OS<span class="tm">™</span></span>
       </div>
@@ -253,70 +195,66 @@
     </header>
 
     <section class="hero">
-      <span class="eyebrow"><span class="live" aria-hidden="true"></span>Secure entrance</span>
+      <h1 class="wordmark">Remote<br/>Insight OS<sup class="tm">™</sup></h1>
 
-      <h1 class="wordmark">Remote<br/>Insight <span class="os">OS</span><span class="tm">™</span></h1>
-
-      <p class="tagline">The operating system for remote teams.</p>
-
-      <div class="doors-label">Choose your entrance</div>
+      <p class="tagline">Reads the signals from your remote team and tells you, in plain words, how the work is going.</p>
 
       <nav class="doors" aria-label="Entrances">
         <a class="door admin" href="https://app.remoteinsightos.com">
-          <span class="halo" aria-hidden="true"></span>
-          <span class="plate">
-            <svg viewBox="0 0 34 34" fill="none" aria-hidden="true">
-              <rect x="3" y="5" width="28" height="20" rx="3" stroke="currentColor" stroke-width="1.7"/>
-              <path d="M3 11h28" stroke="currentColor" stroke-width="1.7"/>
-              <circle cx="6.5" cy="8" r="1" fill="currentColor"/><circle cx="9.5" cy="8" r="1" fill="currentColor"/>
-              <path d="M8 17h7M8 20.5h11M22 16l4 3-4 3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M12 29h10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+          <span class="head">
+            <svg class="glyph" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="5" width="28" height="20" rx="3"/>
+              <path d="M3 11h28"/>
+              <circle cx="6.5" cy="8" r="1" fill="currentColor" stroke="none"/><circle cx="9.5" cy="8" r="1" fill="currentColor" stroke="none"/>
+              <path d="M8 17h7M8 20.5h11M22 16l4 3-4 3"/>
+              <path d="M12 29h10"/>
             </svg>
+            <span class="name">Admin</span>
           </span>
-          <span class="name">Admin</span>
-          <span class="sill"><span class="enter">Enter <span class="arw">→</span></span></span>
+          <span class="who">For the Tele-Help-Ing team. The dashboard, settings and every VA’s read.</span>
+          <span class="enter">Open the admin site</span>
         </a>
 
         <a class="door va" href="https://va.remoteinsightos.com">
-          <span class="halo" aria-hidden="true"></span>
-          <span class="plate">
-            <svg viewBox="0 0 34 34" fill="none" aria-hidden="true">
-              <circle cx="17" cy="11" r="5.4" stroke="currentColor" stroke-width="1.7"/>
-              <path d="M6.5 29c1.4-5.6 5.6-8.5 10.5-8.5S26.1 23.4 27.5 29" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-              <path d="M2.5 17h4l1.6-3.4L10 20l1.8-4 1.2 2h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <span class="head">
+            <svg class="glyph" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="17" cy="11" r="5.4"/>
+              <path d="M6.5 29c1.4-5.6 5.6-8.5 10.5-8.5S26.1 23.4 27.5 29"/>
+              <path d="M2.5 17h4l1.6-3.4L10 20l1.8-4 1.2 2h2"/>
             </svg>
+            <span class="name">VA</span>
           </span>
-          <span class="name">VA</span>
-          <span class="sill"><span class="enter">Enter <span class="arw">→</span></span></span>
+          <span class="who">For virtual assistants. Your survey, your read, your messages.</span>
+          <span class="enter">Open the VA site</span>
         </a>
 
         <a class="door client" href="https://client.remoteinsightos.com">
-          <span class="halo" aria-hidden="true"></span>
-          <span class="plate">
-            <svg viewBox="0 0 34 34" fill="none" aria-hidden="true">
-              <rect x="4" y="6" width="26" height="22" rx="3" stroke="currentColor" stroke-width="1.7"/>
-              <path d="M4 12h26" stroke="currentColor" stroke-width="1.7"/>
-              <path d="M10 20c1.6-2.6 4-3.9 7-3.9s5.4 1.3 7 3.9c-1.6 2.6-4 3.9-7 3.9s-5.4-1.3-7-3.9Z" stroke="currentColor" stroke-width="1.6"/>
-              <circle cx="17" cy="20" r="1.7" fill="currentColor"/>
+          <span class="head">
+            <svg class="glyph" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="4" y="6" width="26" height="22" rx="3"/>
+              <path d="M4 12h26"/>
+              <path d="M10 20c1.6-2.6 4-3.9 7-3.9s5.4 1.3 7 3.9c-1.6 2.6-4 3.9-7 3.9s-5.4-1.3-7-3.9Z"/>
+              <circle cx="17" cy="20" r="1.7" fill="currentColor" stroke="none"/>
             </svg>
+            <span class="name">Client</span>
           </span>
-          <span class="name">Client</span>
-          <span class="sill"><span class="enter">Enter <span class="arw">→</span></span></span>
+          <span class="who">For clients. Your VA’s work, in plain language.</span>
+          <span class="enter">Open the client site</span>
         </a>
       </nav>
     </section>
 
     <footer class="foot">
-      <span>Remote Insight OS<span style="color:var(--muted)">™</span> · Tele-Help-Ing</span>
-      <span>Secure entry · <a href="https://remoteinsightos.com">remoteinsightos.com</a></span>
+      <span>Remote Insight OS<span class="tm">™</span>, Tele-Help-Ing</span>
+      <span><a href="https://remoteinsightos.com">remoteinsightos.com</a></span>
     </footer>
   </main>
 
   <script>
-  /* Ambient "signal field": a bullseye radar with a slow sweep and signal
+  /* Ambient "signal field": a bullseye radar with one slow sweep and signal
      points drifting inward — signals resolving into a read. Purely decorative,
-     capped DPR, paused when the tab is hidden, and fully static under
-     prefers-reduced-motion. */
+     drawn in the one accent with no bloom, capped DPR, paused when the tab is
+     hidden, and a single static frame under prefers-reduced-motion. */
   (function(){
     var canvas = document.getElementById("field");
     if(!canvas) return;
@@ -324,10 +262,7 @@
     var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var W=0, H=0, cx=0, cy=0, R=0, dpr=1;
     var pts=[], rings=[0.16,0.32,0.5,0.72,1.0];
-    var ACCENT = "88,166,255";
-    // Radar reacts to the hovered door: eased bloom + hue toward that accent.
-    var hoverBoost=0, hoverTarget=0, hoverRGB="88,166,255";
-    window.riosRadarHover = function(rgb){ hoverTarget = rgb ? 1 : 0; if(rgb) hoverRGB = rgb; };
+    var ACCENT = "55,214,194";   /* Signal teal — the same --accent the page uses */
 
     function size(){
       dpr = Math.min(window.devicePixelRatio||1, 2);
@@ -351,44 +286,32 @@
       for(var i=0;i<rings.length;i++){
         var rr = rings[i]*R;
         ctx.beginPath(); ctx.arc(cx,cy,rr,0,Math.PI*2);
-        ctx.strokeStyle = "rgba("+ACCENT+","+(0.05 + (rings.length-i)*0.012)+")";
+        ctx.strokeStyle = "rgba("+ACCENT+","+(0.04 + (rings.length-i)*0.01)+")";
         ctx.lineWidth = 1; ctx.stroke();
       }
       // faint crosshair
-      ctx.strokeStyle="rgba("+ACCENT+",0.05)"; ctx.lineWidth=1;
+      ctx.strokeStyle="rgba("+ACCENT+",0.04)"; ctx.lineWidth=1;
       ctx.beginPath(); ctx.moveTo(cx-R,cy); ctx.lineTo(cx+R,cy);
       ctx.moveTo(cx,cy-R); ctx.lineTo(cx,cy+R); ctx.stroke();
     }
-    function point(p, glow){
+    // A point is a plain dot. When the sweep passes it, it brightens — no halo.
+    function point(p, lit){
       var x = cx + Math.cos(p.a)*p.r*R;
       var y = cy + Math.sin(p.a)*p.r*R;
       var tw = 0.45 + 0.55*Math.abs(Math.sin(p.tw));
       ctx.beginPath(); ctx.arc(x,y,1.5,0,Math.PI*2);
-      ctx.fillStyle = "rgba("+ACCENT+","+(0.35*tw)+")"; ctx.fill();
-      if(glow){
-        ctx.beginPath(); ctx.arc(x,y,3.4,0,Math.PI*2);
-        ctx.fillStyle = "rgba("+ACCENT+","+(0.10*tw)+")"; ctx.fill();
-      }
+      ctx.fillStyle = "rgba("+ACCENT+","+((lit ? 0.62 : 0.32)*tw)+")"; ctx.fill();
     }
     var sweep = -Math.PI/2;
     function frame(){
       ctx.clearRect(0,0,W,H);
       grid();
-      // ease the hover reaction; bloom a soft glow + tint the sweep toward the door
-      hoverBoost += (hoverTarget - hoverBoost) * 0.07;
-      var sweepRGB = hoverBoost > 0.02 ? hoverRGB : ACCENT;
-      if(hoverBoost > 0.01){
-        var hg = ctx.createRadialGradient(cx,cy,0,cx,cy,R*0.92);
-        hg.addColorStop(0,"rgba("+hoverRGB+","+(0.12*hoverBoost)+")");
-        hg.addColorStop(1,"rgba("+hoverRGB+",0)");
-        ctx.fillStyle = hg; ctx.beginPath(); ctx.arc(cx,cy,R*0.92,0,Math.PI*2); ctx.fill();
-      }
-      // radar sweep — a soft accent wedge, brighter while a door is hovered
+      // the one authored moment: a soft wedge, one speed, one colour
       ctx.save();
       ctx.translate(cx,cy); ctx.rotate(sweep);
       var grd = ctx.createLinearGradient(0,0,R,0);
-      grd.addColorStop(0,"rgba("+sweepRGB+","+(0.16 + 0.14*hoverBoost)+")");
-      grd.addColorStop(1,"rgba("+sweepRGB+",0)");
+      grd.addColorStop(0,"rgba("+ACCENT+",0.11)");
+      grd.addColorStop(1,"rgba("+ACCENT+",0)");
       ctx.beginPath(); ctx.moveTo(0,0);
       ctx.arc(0,0,R,-0.28,0.02); ctx.closePath();
       ctx.fillStyle = grd; ctx.fill();
@@ -399,11 +322,10 @@
         p.r -= p.dr*0.0015;          // drift inward
         p.tw += 0.03;
         if(p.r < 0.22){ p.r = 1.02; p.a = Math.random()*Math.PI*2; } // recycle before the clean center
-        // glow the point the sweep is passing over
         var da = Math.atan2(Math.sin(p.a-sweep),Math.cos(p.a-sweep));
         point(p, da>-0.28 && da<0.04);
       }
-      sweep += 0.0042;
+      sweep += 0.003;
       raf = requestAnimationFrame(frame);
     }
     function still(){ ctx.clearRect(0,0,W,H); grid(); for(var i=0;i<pts.length;i++) point(pts[i],false); }
@@ -415,33 +337,6 @@
     size(); seed(); start();
     window.addEventListener("resize", function(){ size(); seed(); if(reduce) still(); }, {passive:true});
     document.addEventListener("visibilitychange", function(){ if(document.hidden) stop(); else start(); });
-  })();
-
-  /* Doors: a live threshold. On a fine pointer the card tilts toward the cursor
-     and light spills from the point you aim at; the radar blooms toward the
-     hovered door's accent. */
-  (function(){
-    var fine = window.matchMedia && window.matchMedia("(hover:hover) and (pointer:fine)").matches;
-    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var doors = document.querySelectorAll(".door");
-    Array.prototype.forEach.call(doors, function(d){
-      var da = (getComputedStyle(d).getPropertyValue("--da") || "88,166,255").trim();
-      d.addEventListener("mouseenter", function(){ if(window.riosRadarHover) window.riosRadarHover(da); });
-      d.addEventListener("mouseleave", function(){
-        if(window.riosRadarHover) window.riosRadarHover(null);
-        d.style.removeProperty("transform");
-        d.style.setProperty("--mx","50%"); d.style.setProperty("--my","0%");
-      });
-      if(!fine || reduce) return;
-      d.addEventListener("mousemove", function(e){
-        var r = d.getBoundingClientRect();
-        var px = (e.clientX - r.left)/r.width, py = (e.clientY - r.top)/r.height;
-        d.style.setProperty("--mx", (px*100).toFixed(1)+"%");
-        d.style.setProperty("--my", (py*100).toFixed(1)+"%");
-        var rx = (0.5 - py) * 9, ry = (px - 0.5) * 11;
-        d.style.transform = "translateY(-6px) rotateX("+rx.toFixed(2)+"deg) rotateY("+ry.toFixed(2)+"deg)";
-      });
-    });
   })();
   </script>
 </body>
