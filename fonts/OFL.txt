@@ -1,0 +1,8 @@
+Sora (c) 2020 The Sora Project Authors (https://github.com/sora-xor/sora-font)
+IBM Plex Mono (c) 2017 IBM Corp. (https://github.com/IBM/plex)
+
+Both families are licensed under the SIL Open Font License, Version 1.1.
+This license is available with a FAQ at: https://scripts.sil.org/OFL
+
+The fonts are served from this site's own /fonts/ path so that no third-party
+request is made when a page loads.
